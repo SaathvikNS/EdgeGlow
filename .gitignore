@@ -1,0 +1,49 @@
+# Build directories
+build/
+out/
+bin/
+*.dir/
+docs/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.sln.docstates
+*.vcxproj.filters
+*.vcxproj.user
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Compiled binaries
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.lib
+*.exp
+
+# IDE specific
+.vscode/
+*.code-workspace
+
+# OS specific
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+*~
+
+# User config (will be created at runtime)
+config.json
