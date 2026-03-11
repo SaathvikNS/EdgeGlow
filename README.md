@@ -1,4 +1,4 @@
-# EdgeGlow 🎵✨
+# EdgeGlow
 
 > **Phase 1**: Foundation - Transparent Overlay Window
 
@@ -8,15 +8,16 @@ A low-latency, GPU-accelerated audio-reactive screen edge glow overlay for Windo
 
 **Implemented:**
 
-- ✅ Transparent, borderless overlay window
-- ✅ Always-on-top rendering
-- ✅ Click-through functionality
-- ✅ Direct2D initialization
-- ✅ Static glow rendering (test)
+- Transparent, borderless overlay window
+- Always-on-top rendering
+- Click-through functionality
+- Direct2D initialization with per-pixel alpha
+- Static glow rendering with smooth transparency fade
+- Offscreen bitmap rendering with UpdateLayeredWindow
 
 **Next Phase:**
 
-- ⏳ Phase 2: Audio capture (WASAPI loopback)
+- Phase 2: Audio capture (WASAPI loopback)
 
 ---
 
@@ -26,12 +27,11 @@ EdgeGlow creates a beautiful, subtle glow effect around your screen edges that r
 
 ### Planned Features
 
-- 🎨 **Dual color modes**: Manual color selection or rainbow cycling
-- 🎛️ **Adjustable parameters**: Intensity, sensitivity, thickness, smoothness
-- 🖥️ **Non-intrusive**: Click-through overlay, always on top
-- ⚡ **High performance**: < 2% CPU usage, GPU-accelerated
-- 🚀 **System integration**: Auto-start with Windows, system tray control
-- 🎵 **Audio reactive**: Syncs with bass, mids, treble, and beats
+- **Dual color modes**: Manual color selection or rainbow cycling
+- **Adjustable parameters**: Intensity, sensitivity, thickness, smoothness
+- **High performance**: < 2% CPU usage, GPU-accelerated
+- **System integration**: Auto-start with Windows, system tray control
+- **Audio reactive**: Syncs with bass, mids, treble, and beats
 
 ---
 
@@ -57,8 +57,9 @@ When running Phase 1:
 
 1. A message box explaining the test
 2. A **cyan glow** at the **top edge** of your screen (20px thick)
-3. Gradient effect (solid to transparent)
+3. **Smooth gradient effect** (solid cyan fading to fully transparent)
 4. Window is click-through (doesn't block mouse interaction)
+5. Desktop is fully visible through the transparent areas
 
 Press **ESC** to exit.
 
@@ -106,13 +107,10 @@ Press **ESC** to exit.
 edgeglow/
 ├── src/
 │   ├── render/
-│   │   ├── OverlayWindow.cpp      # Transparent window management
-│   │   └── GlowRenderer.cpp       # Direct2D rendering
-│   ├── audio/                      # (Phase 2)
-│   ├── core/                       # (Phase 3+)
-│   └── main.cpp                    # Entry point
-├── docs/
-│   └── BUILD.md                    # Build instructions
+│   │   ├── OverlayWindow.cpp	# Transparent window management
+│   │   └── GlowRenderer.cpp	# Direct2D rendering
+│   └── main.cpp		# Entry point
+├── BUILD.md			# Build instructions
 ├── CMakeLists.txt
 └── README.md
 ```
@@ -153,9 +151,5 @@ This project is in active development. Contributions welcome after Phase 8 (GitH
 
 ---
 
-**Current Phase**: 1/8 - Foundation ✅
+**Current Phase**: 1/8 - Foundation
 **Next Milestone**: Audio capture working
-
----
-
-Built with ❤️ using modern C++ and Windows APIs.

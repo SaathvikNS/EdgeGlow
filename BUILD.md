@@ -84,7 +84,7 @@ When you run `EdgeGlow.exe`:
 
 **Problem**: Black screen instead of transparent
 
-- **Solution**: Verify `WS_EX_LAYERED` flag is set (check OverlayWindow.cpp)
+- **Solution**: Ensure `m_hBitmap` and `m_memDC` are properly initialized in GlowRenderer::CreateDeviceResources()
 
 ## Clean Build
 
