@@ -8,9 +8,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # MSVC-specific flags
 if(MSVC)
-    add_compile_options(/W4 /WX-)  # Warning level 4, don't treat warnings as errors
-    add_compile_options(/MP)       # Multi-processor compilation
-    add_definitions(-DUNICODE -D_UNICODE)  # Unicode support
+    add_compile_options(/W4 /WX-) # Warning level 4, don't treat warnings as errors
+    add_compile_options(/MP) # Multi-processor compilation
+    add_definitions(-DUNICODE -D_UNICODE) # Unicode support
 endif()
 
 # Source files for Phase 1
@@ -30,11 +30,10 @@ add_executable(EdgeGlow WIN32 ${SOURCES} ${HEADERS})
 
 # Windows-specific libraries
 target_link_libraries(EdgeGlow PRIVATE
-    d2d1        # Direct2D
-    dwrite      # DirectWrite
-    dcomp       # DirectComposition
-    windowscodecs  # WIC (Windows Imaging Component)
-    dwmapi      # Desktop Window Manager
+    d2d1 # Direct2D
+    dwrite # DirectWrite
+    dcomp # DirectComposition
+    windowscodecs # WIC (Windows Imaging Component)
 )
 
 # Set output directory
@@ -44,7 +43,6 @@ set_target_properties(EdgeGlow PROPERTIES
 
 # Copy resources to output directory (for later phases)
 # file(COPY resources DESTINATION "${CMAKE_BINARY_DIR}/bin")
-
 message(STATUS "EdgeGlow Phase 1 - Foundation")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")

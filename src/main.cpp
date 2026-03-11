@@ -2,7 +2,7 @@
 #include "render/GlowRenderer.h"
 #include <windows.h>
 #include <chrono>
-<parameter name="thread">
+#include <thread>
 
 using namespace EdgeGlow;
 
@@ -10,11 +10,14 @@ using namespace EdgeGlow;
 bool g_running = true;
 
 // Low-level keyboard hook to detect ESC
-LRESULT CALLBACK KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
-    if (nCode == HC_ACTION && wParam == WM_KEYDOWN) {
-        KBDLLHOOKSTRUCT* pKeyboard = (KBDLLHOOKSTRUCT*)lParam;
-        if (pKeyboard->vkCode == VK_ESCAPE) {
-            g_running = false;  // Signal main loop to exit
+LRESULT CALLBACK KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode == HC_ACTION && wParam == WM_KEYDOWN)
+    {
+        KBDLLHOOKSTRUCT *pKeyboard = (KBDLLHOOKSTRUCT *)lParam;
+        if (pKeyboard->vkCode == VK_ESCAPE)
+        {
+            g_running = false; // Signal main loop to exit
         }
     }
     return CallNextHookEx(nullptr, nCode, wParam, lParam);
@@ -22,7 +25,7 @@ LRESULT CALLBACK KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
 
 /**
  * @brief Main application entry point.
- * 
+ *
  * Phase 1 Functionality:
  * - Creates a transparent overlay window
  * - Initializes Direct2D rendering
@@ -33,8 +36,8 @@ int WINAPI wWinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPWSTR lpCmdLine,
-    _In_ int nShowCmd
-) {
+    _In_ int nShowCmd)
+{
     // Unreferenced parameters
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
@@ -42,14 +45,16 @@ int WINAPI wWinMain(
 
     // Initialize COM (required for Direct2D)
     HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
-    if (FAILED(hr)) {
+    if (FAILED(hr))
+    {
         MessageBox(nullptr, L"Failed to initialize COM", L"Error", MB_ICONERROR);
         return -1;
     }
 
     // Create overlay window
     OverlayWindow window;
-    if (!window.Initialize()) {
+    if (!window.Initialize())
+    {
         MessageBox(nullptr, L"Failed to create overlay window", L"Error", MB_ICONERROR);
         CoUninitialize();
         return -1;
@@ -57,7 +62,8 @@ int WINAPI wWinMain(
 
     // Create renderer
     GlowRenderer renderer;
-    if (!renderer.Initialize(window.GetHandle())) {
+    if (!renderer.Initialize(window.GetHandle()))
+    {
         MessageBox(nullptr, L"Failed to initialize Direct2D renderer", L"Error", MB_ICONERROR);
         CoUninitialize();
         return -1;
@@ -68,7 +74,8 @@ int WINAPI wWinMain(
 
     // Install keyboard hook to detect ESC (since window is click-through)
     HHOOK hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHookProc, hInstance, 0);
-    if (!hKeyboardHook) {
+    if (!hKeyboardHook)
+    {
         MessageBox(nullptr, L"Failed to install keyboard hook", L"Warning", MB_ICONWARNING);
     }
 
@@ -81,8 +88,7 @@ int WINAPI wWinMain(
         L"Press OK to start rendering.\n"
         L"Press ESC anywhere to exit.",
         L"EdgeGlow - Phase 1",
-        MB_ICONINFORMATION
-    );
+        MB_ICONINFORMATION);
 
     // Main render loop
     MSG msg = {};
@@ -91,12 +97,15 @@ int WINAPI wWinMain(
     constexpr int TARGET_FPS = 60;
     constexpr auto FRAME_TIME = std::chrono::milliseconds(1000 / TARGET_FPS);
 
-    while (g_running) {
+    while (g_running)
+    {
         auto frameStart = std::chrono::steady_clock::now();
 
         // Process Windows messages
-        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-            if (msg.message == WM_QUIT) {
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT)
+            {
                 g_running = false;
                 break;
             }
@@ -105,7 +114,8 @@ int WINAPI wWinMain(
             DispatchMessage(&msg);
         }
 
-        if (!g_running) break;
+        if (!g_running)
+            break;
 
         // Render frame
         renderer.Render();
@@ -113,14 +123,16 @@ int WINAPI wWinMain(
         // Frame rate limiting
         auto frameEnd = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(frameEnd - frameStart);
-        
-        if (elapsed < FRAME_TIME) {
+
+        if (elapsed < FRAME_TIME)
+        {
             std::this_thread::sleep_for(FRAME_TIME - elapsed);
         }
     }
 
     // Cleanup
-    if (hKeyboardHook) {
+    if (hKeyboardHook)
+    {
         UnhookWindowsHookEx(hKeyboardHook);
     }
     renderer.Cleanup();
