@@ -71,15 +71,19 @@ When you run `EdgeGlow.exe`:
 ### Troubleshooting
 
 **Problem**: "Cannot find d2d1.lib"
+
 - **Solution**: Ensure Windows SDK is installed via Visual Studio Installer
 
 **Problem**: Window appears but no glow visible
+
 - **Solution**: Check GPU drivers are up to date
 
 **Problem**: Application crashes on startup
+
 - **Solution**: Run from Developer Command Prompt to see error messages
 
 **Problem**: Black screen instead of transparent
+
 - **Solution**: Verify `WS_EX_LAYERED` flag is set (check OverlayWindow.cpp)
 
 ## Clean Build
@@ -109,6 +113,7 @@ While EdgeGlow is running:
 ## Next Steps
 
 Once Phase 1 is verified working:
+
 - **Phase 2**: Audio capture (WASAPI)
 - **Phase 3**: FFT analysis
 - **Phase 4**: Reactive rendering

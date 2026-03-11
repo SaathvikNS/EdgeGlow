@@ -4,9 +4,10 @@
 
 A low-latency, GPU-accelerated audio-reactive screen edge glow overlay for Windows.
 
-## Current Status: Phase 1 - Foundation ✅
+## Current Status: Phase 1 - Foundation
 
 **Implemented:**
+
 - ✅ Transparent, borderless overlay window
 - ✅ Always-on-top rendering
 - ✅ Click-through functionality
@@ -14,6 +15,7 @@ A low-latency, GPU-accelerated audio-reactive screen edge glow overlay for Windo
 - ✅ Static glow rendering (test)
 
 **Next Phase:**
+
 - ⏳ Phase 2: Audio capture (WASAPI loopback)
 
 ---
@@ -40,6 +42,7 @@ EdgeGlow creates a beautiful, subtle glow effect around your screen edges that r
 See [BUILD.md](docs/BUILD.md) for detailed instructions.
 
 **Quick start:**
+
 ```bash
 cd D:\new\Projects\ambientlighting\edgeglow
 mkdir build && cd build
@@ -51,6 +54,7 @@ cmake --build . --config Release
 ### What You Should See
 
 When running Phase 1:
+
 1. A message box explaining the test
 2. A **cyan glow** at the **top edge** of your screen (20px thick)
 3. Gradient effect (solid to transparent)
@@ -85,14 +89,14 @@ Press **ESC** to exit.
 
 ## Tech Stack
 
-| Component | Technology |
-|-----------|-----------|
-| Language | C++17 |
-| Audio Capture | WASAPI |
-| FFT | KissFFT |
-| Rendering | Direct2D + DirectComposition |
-| Windowing | Win32 API |
-| Build System | CMake |
+| Component     | Technology                   |
+| ------------- | ---------------------------- |
+| Language      | C++17                        |
+| Audio Capture | WASAPI                       |
+| FFT           | KissFFT                      |
+| Rendering     | Direct2D + DirectComposition |
+| Windowing     | Win32 API                    |
+| Build System  | CMake                        |
 
 ---
 
@@ -149,7 +153,7 @@ This project is in active development. Contributions welcome after Phase 8 (GitH
 
 ---
 
-**Current Phase**: 1/8 - Foundation ✅  
+**Current Phase**: 1/8 - Foundation ✅
 **Next Milestone**: Audio capture working
 
 ---
