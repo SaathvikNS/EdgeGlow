@@ -39,7 +39,7 @@ EdgeGlow creates a beautiful, subtle glow effect around your screen edges that r
 
 ### Build Instructions
 
-See [BUILD.md](docs/BUILD.md) for detailed instructions.
+See [BUILD.md](BUILD.md) for detailed instructions.
 
 **Quick start:**
 
