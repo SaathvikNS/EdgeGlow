@@ -1,4 +1,4 @@
-# EdgeGlow - Build Instructions (Phase 1)
+# EdgeGlow - Build Instructions (Phase 2 Complete)
 
 ## Prerequisites
 
@@ -55,24 +55,32 @@ bin\Release\EdgeGlow.exe
 6. Press **F5** or click **"Build" → "Build All"**
 7. Run from `out\build\x64-Release\bin\EdgeGlow.exe`
 
-## Testing Phase 1
+## Testing Phase 2
 
 ### Expected Behavior
 
 When you run `EdgeGlow.exe`:
 
-1. ✅ A message box appears explaining Phase 1
-2. ✅ Press OK
-3. ✅ You should see a **cyan glow** at the **top edge** of your screen (20px thick)
-4. ✅ The glow has a gradient effect (solid at screen edge, fading downward)
-5. ✅ The overlay is **click-through** (you can interact with windows beneath it)
-6. ✅ Press **ESC** to exit
+1. ✅ **Console output** shows audio format detection
+2. ✅ A **cyan glow** appears at the **top edge** of your screen (20px thick)
+3. ✅ **Real-time RMS energy values** display in the console
+4. ✅ Volume bar visualizes audio intensity
+5. ✅ Play music/videos to see RMS values change dynamically
+6. ✅ Application runs for 30 seconds then exits automatically
 
 ### Troubleshooting
 
 **Problem**: "Cannot find d2d1.lib"
 
 - **Solution**: Ensure Windows SDK is installed via Visual Studio Installer
+
+**Problem**: "Audio capture failed to initialize"
+
+- **Solution**: Check that audio devices are working in Windows Settings → Sound
+
+**Problem**: No RMS values changing
+
+- **Solution**: Play audio from any source (YouTube, music player, etc.) and ensure volume is up
 
 **Problem**: Window appears but no glow visible
 
@@ -81,10 +89,6 @@ When you run `EdgeGlow.exe`:
 **Problem**: Application crashes on startup
 
 - **Solution**: Run from Developer Command Prompt to see error messages
-
-**Problem**: Black screen instead of transparent
-
-- **Solution**: Ensure `m_hBitmap` and `m_memDC` are properly initialized in GlowRenderer::CreateDeviceResources()
 
 ## Clean Build
 
@@ -112,14 +116,14 @@ While EdgeGlow is running:
 
 ## Next Steps
 
-Once Phase 1 is verified working:
+Once Phase 2 is verified working:
 
-- **Phase 2**: Audio capture (WASAPI)
-- **Phase 3**: FFT analysis
-- **Phase 4**: Reactive rendering
+- **Phase 3**: FFT analysis & beat detection
+- **Phase 4**: Visual mapping (audio → reactive glow)
+- **Phase 5**: Dynamic rendering with color modes
 
 ---
 
-**Phase 1 Goal**: Confirm transparent overlay window works and Direct2D renders correctly.
+**Phase 2 Goal**: Confirm WASAPI audio capture works and RMS energy calculation provides real-time audio monitoring.
 
-If you see the cyan glow at the top of your screen → **Phase 1 Complete! ✅**
+If you see RMS values changing with audio playback → **Phase 2 Complete! ✅**

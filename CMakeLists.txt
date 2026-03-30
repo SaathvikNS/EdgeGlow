@@ -13,20 +13,23 @@ if(MSVC)
     add_definitions(-DUNICODE -D_UNICODE) # Unicode support
 endif()
 
-# Source files for Phase 1
+# Source files for Phase 2
 set(SOURCES
     src/main.cpp
     src/render/OverlayWindow.cpp
     src/render/GlowRenderer.cpp
+    src/audio/AudioCapture.cpp
 )
 
 set(HEADERS
     src/render/OverlayWindow.h
     src/render/GlowRenderer.h
+    src/audio/AudioCapture.h
+    src/utils/CircularBuffer.h
 )
 
-# Create executable
-add_executable(EdgeGlow WIN32 ${SOURCES} ${HEADERS})
+# Create executable (remove WIN32 to show console for debugging)
+add_executable(EdgeGlow ${SOURCES} ${HEADERS})
 
 # Windows-specific libraries
 target_link_libraries(EdgeGlow PRIVATE
@@ -43,6 +46,6 @@ set_target_properties(EdgeGlow PROPERTIES
 
 # Copy resources to output directory (for later phases)
 # file(COPY resources DESTINATION "${CMAKE_BINARY_DIR}/bin")
-message(STATUS "EdgeGlow Phase 1 - Foundation")
+message(STATUS "EdgeGlow Phase 2 - Audio Capture")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
