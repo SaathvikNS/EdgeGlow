@@ -141,7 +141,7 @@ edgeglow/
 
 ## License
 
-MIT License (to be added)
+MIT Licence - [Click Here](./LICENSE "MIT LIcense")
 
 ---
 
