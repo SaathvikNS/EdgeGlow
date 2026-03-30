@@ -1,23 +1,25 @@
 # EdgeGlow
 
-> **Phase 1**: Foundation - Transparent Overlay Window
+> **Phase 3**: FFT Analysis & Beat Detection
 
 A low-latency, GPU-accelerated audio-reactive screen edge glow overlay for Windows.
 
-## Current Status: Phase 1 - Foundation
+## Current Status: Phase 2 Complete - Phase 3 Next
 
-**Implemented:**
+**Completed:**
 
-- Transparent, borderless overlay window
-- Always-on-top rendering
-- Click-through functionality
-- Direct2D initialization with per-pixel alpha
-- Static glow rendering with smooth transparency fade
-- Offscreen bitmap rendering with UpdateLayeredWindow
+- ✅ Transparent, borderless overlay window
+- ✅ Always-on-top rendering
+- ✅ Click-through functionality
+- ✅ Direct2D per-pixel alpha rendering
+- ✅ WASAPI loopback audio capture
+- ✅ Lock-free circular buffer
+- ✅ RMS energy calculation
+- ✅ Console Output for audio monitoring
 
 **Next Phase:**
 
-- Phase 2: Audio capture (WASAPI loopback)
+- Phase 3: FFT analysis & beat detection
 
 ---
 
@@ -35,7 +37,7 @@ EdgeGlow creates a beautiful, subtle glow effect around your screen edges that r
 
 ---
 
-## Phase 1 Testing
+## Phase 2 Testing
 
 ### Build Instructions
 
@@ -53,27 +55,52 @@ cmake --build . --config Release
 
 ### What You Should See
 
-When running Phase 1:
+When running Phase 2:
 
-1. A message box explaining the test
+1. **Console output** showing audio format detection
 2. A **cyan glow** at the **top edge** of your screen (20px thick)
-3. **Smooth gradient effect** (solid cyan fading to fully transparent)
-4. Window is click-through (doesn't block mouse interaction)
-5. Desktop is fully visible through the transparent areas
+3. **Real-time RMS energy values** in the console
+4. Volume bar that moves with audio intensity
+5. Play music/videos to see RMS values change!
 
-Press **ESC** to exit.
+**Expected Console Output:**
+
+```
+Audio Format:
+  Sample Rate: 48000 Hz
+  Channels: 2
+  Bits Per Sample: 32
+  Format Tag: 65534
+  Format: Extensible IEEE Float
+Audio capture initialized successfully!
+Audio capture started!
+Capture thread started
+RMS Energy: 0.145 | [=======                                           ]
+RMS Energy: 0.267 | [=============                                     ]
+RMS Energy: 0.423 | [=====================                             ]
+```
+
+The application runs for 30 seconds then exits automatically.
 
 ---
 
-## Architecture (Preview)
+## Architecture
 
 ```
 ┌──────────────┐
-│ System Audio │ ← WASAPI Loopback (Phase 2)
+│ System Audio │ ← WASAPI Loopback (Phase 2 ✅)
 └──────┬───────┘
        │
+┌──────▼──────────┐
+│ Circular Buffer │ ← Lock-free SPSC (Phase 2 ✅)
+└──────┬──────────┘
+       │
 ┌──────▼────────┐
-│ FFT Analysis  │ ← KissFFT (Phase 3)
+│  RMS Energy   │ ← Volume Calculation (Phase 2 ✅)
+└──────┬────────┘
+       │
+┌──────▼────────┐
+│ FFT Analysis  │ ← KissFFT (Phase 3 - Next)
 │ Beat Detection│
 └──────┬────────┘
        │
@@ -82,7 +109,7 @@ Press **ESC** to exit.
 └──────┬─────────┘
        │
 ┌──────▼──────────┐
-│ Direct2D Render │ ← Currently here (Phase 1) ✅
+│ Direct2D Render │ ← Static Glow (Phase 1 ✅)
 └─────────────────┘
 ```
 
@@ -93,8 +120,9 @@ Press **ESC** to exit.
 | Component     | Technology                   |
 | ------------- | ---------------------------- |
 | Language      | C++17                        |
-| Audio Capture | WASAPI                       |
-| FFT           | KissFFT                      |
+| Audio Capture | WASAPI Loopback              |
+| Audio Buffer  | Lock-free Circular Buffer    |
+| FFT           | KissFFT (Phase 3)            |
 | Rendering     | Direct2D + DirectComposition |
 | Windowing     | Win32 API                    |
 | Build System  | CMake                        |
@@ -106,13 +134,24 @@ Press **ESC** to exit.
 ```
 edgeglow/
 ├── src/
+│   ├── audio/
+│   │   ├── AudioCapture.h      # WASAPI audio capture class
+│   │   └── AudioCapture.cpp    # WASAPI implementation
 │   ├── render/
-│   │   ├── OverlayWindow.cpp	# Transparent window management
-│   │   └── GlowRenderer.cpp	# Direct2D rendering
-│   └── main.cpp		# Entry point
-├── BUILD.md			# Build instructions
-├── CMakeLists.txt
-└── README.md
+│   │   ├── OverlayWindow.h     # Transparent window management
+│   │   ├── OverlayWindow.cpp   # Window implementation
+│   │   ├── GlowRenderer.h      # Direct2D renderer class
+│   │   └── GlowRenderer.cpp    # Direct2D rendering
+│   ├── utils/
+│   │   └── CircularBuffer.h    # Lock-free ring buffer
+│   └── main.cpp                # Application entry point
+├── libs/
+│   ├── json/                   # JSON library for config
+│   └── kissfft/                # FFT library for analysis
+├── docs/                       # Documentation
+├── BUILD.md                    # Build instructions
+├── CMakeLists.txt              # CMake configuration
+└── README.md                   # This file
 ```
 
 ---
@@ -120,7 +159,7 @@ edgeglow/
 ## Development Roadmap
 
 - [x] **Phase 1**: Foundation (transparent overlay + Direct2D)
-- [ ] **Phase 2**: Audio capture (WASAPI loopback)
+- [x] **Phase 2**: Audio capture (WASAPI loopback)
 - [ ] **Phase 3**: Audio analysis (FFT + beat detection)
 - [ ] **Phase 4**: Visual mapping (audio → visuals)
 - [ ] **Phase 5**: Reactive rendering (dynamic glow)
@@ -151,5 +190,5 @@ This project is in active development. Contributions welcome after Phase 8 (GitH
 
 ---
 
-**Current Phase**: 1/8 - Foundation
-**Next Milestone**: Audio capture working
+**Current Phase**: 2/8 - Audio Capture Complete ✅
+**Next Milestone**: FFT analysis & beat detection
